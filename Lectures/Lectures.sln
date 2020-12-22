@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lectures", "Lectures.fsproj", "{017E9DB0-8C37-4D38-9412-DD83EE147CDF}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Lectures.Tests", "..\Lectures.Tests\Lectures.Tests.fsproj", "{D7FB3995-B28A-450B-8611-8C00CB9E6CE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{017E9DB0-8C37-4D38-9412-DD83EE147CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017E9DB0-8C37-4D38-9412-DD83EE147CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017E9DB0-8C37-4D38-9412-DD83EE147CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017E9DB0-8C37-4D38-9412-DD83EE147CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7FB3995-B28A-450B-8611-8C00CB9E6CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7FB3995-B28A-450B-8611-8C00CB9E6CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7FB3995-B28A-450B-8611-8C00CB9E6CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7FB3995-B28A-450B-8611-8C00CB9E6CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
