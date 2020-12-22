@@ -5,6 +5,47 @@ module Lecture1 =
     let mid (_, x, _) = x
     let lst (_, _, x) = x
     
-    let flipX (x, y) = (-x, y)
-    let flipY (x, y) = (x, -y)
+    let flipX (x: float, y: float) = (-x, y)
+    let flipY (x: float, y: float) = (x, -y)
+    let rotate (x: float, y: float) angle =
+        (cos(angle) * x - sin(angle) * y,
+         sin(angle) * x + cos(angle) * y)
+    let transpose (x1: float, y1: float) (x2: float, y2: float) =
+        (x1, x2), (y1, y2)
+        
+//    let isOrthogonal (x1: float, y1: float) (x2: float, y2: float) =
+//        let ((x3, y3),(x4, y5)) = transpose (x1, y1) (x2, y2)
+    type Department = IT | SALES | PR | HR
+    type Employee = {Name: string; Salary: float; Department: Department}
+    let employees: Employee list = [
+        {Name="Ryszard"; Salary=15000.; Department=IT}
+        {Name="Zygfryd"; Salary=2000.; Department=SALES}
+        {Name="Krzysztof"; Salary=10000.; Department=PR}
+        {Name="Ania"; Salary=9000.; Department=SALES}
+        {Name="Rafał"; Salary=5000.; Department=HR}
+        {Name="Adam"; Salary=20000.; Department=IT}
+        {Name="Mateusz"; Salary=3000.; Department=SALES}
+        {Name="Alexa"; Salary=10000.; Department=SALES}
+        {Name="Monika"; Salary=13000.; Department=IT}
+        {Name="Joanna"; Salary=5000.; Department=HR}
+    ]
+    
+    let printItRecords() =
+        let itFilter = function {Department=IT} -> true | _ -> false
+        List.filter itFilter employees |> printfn "%A"
+        
+    let printSalarySum (department: Department) =
+        employees
+            |> List.filter (fun e -> e.Department = department)
+            |> List.map (fun e -> e.Salary)
+            |> List.sum
+            |> printfn "%f"
 
+    let removeDups (xs: int list) =
+        let rec r (ys: int list) acc = match ys with
+            | h :: t -> r t (if List.contains h acc then acc else h :: acc)
+            | [] -> acc
+        r xs [] |> List.rev
+        
+    let removeDups2 (xs: int list) =
+        List.foldBack (fun x acc -> if List.contains x acc then acc else x :: acc) xs []
