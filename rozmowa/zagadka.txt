@@ -1,0 +1,26 @@
+2 osoby
+120 monet na stole
+ruchy na zmianę
+w swoim ruchu można zabrać 1 2 lub 3 monety
+wygrywa gracz który pociągnie jako ostatni monetę
+czy istnieje strategia pozwalająca wygrać
+
+1 - zaczynam
+2 - zaczynam
+3 - zaczynam
+4 - nie zaczynam
+5 - zaczynam
+6 - zaczynam
+7 - zaczynam
+8 - nie zaczynam
+9 - zaczynam
+
+
+100 monet
+90 monet to reszki
+10 to orły
+
+2 kupki
+ma być taka sama liczba monet z orłami
+mogę obracać monety
+
