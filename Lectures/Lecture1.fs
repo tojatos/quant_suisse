@@ -1,5 +1,7 @@
 ﻿namespace Lectures
 
+open System
+
 module Lecture1 =
     let fst (x, _, _) = x
     let mid (_, x, _) = x
@@ -13,8 +15,12 @@ module Lecture1 =
     let transpose (x1: float, y1: float) (x2: float, y2: float) =
         (x1, x2), (y1, y2)
         
-//    let isOrthogonal (x1: float, y1: float) (x2: float, y2: float) =
-//        let ((x3, y3),(x4, y5)) = transpose (x1, y1) (x2, y2)
+    let round5 (x: float) = Math.Round(x, 5)
+    let isOrthogonal (x1: float, y1: float) (x2: float, y2: float) =
+        x1 ** 2. + y1 ** 2. |> round5 = 1.
+        && x2 ** 2. + y2 ** 2. |> round5 = 1.
+        && x1 * x2 + y1 * y2 |> round5 = 0.
+        
     type Department = IT | SALES | PR | HR
     type Employee = {Name: string; Salary: float; Department: Department}
     let employees: Employee list = [
@@ -30,7 +36,7 @@ module Lecture1 =
         {Name="Joanna"; Salary=5000.; Department=HR}
     ]
     
-    let printItRecords() =
+    let printItRecords () =
         let itFilter = function {Department=IT} -> true | _ -> false
         List.filter itFilter employees |> printfn "%A"
         
@@ -44,8 +50,9 @@ module Lecture1 =
     let removeDups (xs: int list) =
         let rec r (ys: int list) acc = match ys with
             | h :: t -> r t (if List.contains h acc then acc else h :: acc)
-            | [] -> acc
-        r xs [] |> List.rev
+            | [] -> List.rev acc
+        r xs []
         
     let removeDups2 (xs: int list) =
-        List.foldBack (fun x acc -> if List.contains x acc then acc else x :: acc) xs []
+        let f = fun x (i, acc) -> (i-1, if List.contains x xs.[0..i] then acc else x :: acc)
+        List.foldBack f xs (List.length xs - 2,[]) |> snd
