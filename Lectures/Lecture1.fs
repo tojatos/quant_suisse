@@ -53,6 +53,9 @@ module Lecture1 =
             | [] -> List.rev acc
         r xs []
         
-    let removeDups2 (xs: int list) =
-        let f = fun x (i, acc) -> (i-1, if List.contains x xs.[0..i] then acc else x :: acc)
-        List.foldBack f xs (List.length xs - 2,[]) |> snd
+    // let removeDups2 (xs: int list) =
+    //     let f = fun x (i, acc) -> (i-1, if List.contains x xs.[0..i] then acc else x :: acc)
+    //     List.foldBack f xs (List.length xs - 2,[]) |> snd
+
+    let removeDups2 lst = 
+        List.foldBack (fun elem state -> elem :: List.filter (fun e -> e <> elem) state ) lst []
