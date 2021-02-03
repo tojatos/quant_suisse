@@ -1,8 +1,8 @@
-module Lectures.Tests
+module Lectures.Tests.Lecture1Tests
 
 open System
 open NUnit.Framework
-open Lecture1
+open Lectures.Lecture1
 
 [<TestFixture>]
 type Lecture1Tests() =
