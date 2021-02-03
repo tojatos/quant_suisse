@@ -1,0 +1,20 @@
+BlackJack simulator
+
+
+1. Given the following data types,    
+        type Suit = Heart | Diamond | Club | Spade
+        type Rank = Ace | King | Queen | Jack | Value of int
+        type Card = Card of Rank * Suit        
+        type HandType = Over21 | Hand of int | Blackjack
+    
+    Implement a function 'judgeHand : list<Card> -> HandType‚ that takes a hand of cards (represented as a list of cards) and returns:
+     * Over21 if the value of the hand is over 21,
+     * Blackjack if the value is 21,
+     * otherwise, Hand <value>.
+    You may assume that Aces are always worth 11. Examples:
+     judgeHand [ Card (Ace, Heart);     Card (Value 7, Spade); Card (Value 3, Club) ] = Blackjack
+     judgeHand [ Card (Ace, Heart);     Card (Value 7, Spade); Card (King, Club) ]    = Over21
+     judgeHand [ Card (Value 1, Heart); Card (Value 7, Spade); Card (King, Club) ]    = Hand 18
+     
+2. Write your own definitions of List.fold and List.foldBack
+
