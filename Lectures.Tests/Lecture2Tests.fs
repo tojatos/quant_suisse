@@ -54,3 +54,28 @@ let ``Folds are working properly`` () =
     testFoldBack testB3
     testFoldBack testB4
     testFoldBack testB5
+
+[<Test>]
+let ``Primitive parsers work`` () =
+    Parsers.pChar 'd' "dolphin" |> Option.get |> should equal ('d', "olphin")
+    Parsers.pChar 'e' "dolphin" |> should equal None
+
+    Parsers.pAny "dolphin" |> Option.get |> should equal ('d', "olphin")
+    Parsers.pAny "" |> should equal None
+
+    Parsers.pDigit "4dolphins" |> Option.get |> should equal (4, "dolphins")
+    Parsers.pDigit "30dolphins" |> Option.get |> should equal (3, "0dolphins")
+    Parsers.pDigit "dolphins4" |> should equal None
+    Parsers.pDigit "" |> should equal None
+
+    Parsers.pSpace " " |> Option.get |> should equal (" ", "")
+    Parsers.pSpace "   test" |> Option.get |> should equal ("   ", "test")
+    Parsers.pSpace "   test   " |> Option.get |> should equal ("   ", "test   ")
+    Parsers.pSpace "" |> should equal None
+    Parsers.pSpace "ala ma kota" |> should equal None
+
+    Parsers.pWord "d" "dolphin" |> Option.get |> should equal ("d", "olphin")
+    Parsers.pWord "ala" "ala ma kota" |> Option.get |> should equal ("ala", " ma kota")
+    Parsers.pWord "kota" "ala ma kota" |> should equal None
+    Parsers.pWord "c" "" |> should equal None
+    
