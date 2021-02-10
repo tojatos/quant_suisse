@@ -79,3 +79,32 @@ let ``Primitive parsers work`` () =
     Parsers.pWord "kota" "ala ma kota" |> should equal None
     Parsers.pWord "c" "" |> should equal None
     
+open Combinators
+open Parsers
+[<Test>]
+let ``Combinators work`` () =
+    let lParser: Parser<char> = combineL (pChar 'a') (pChar 'b')
+    lParser "bb" |> should equal None
+    lParser "ab" |> Option.get |> should equal ('a', "")
+    lParser "ac" |> should equal None
+    
+    let rParser: Parser<char> = combineR (pChar 'a') (pChar 'b')
+    rParser "bb" |> should equal None
+    rParser "ab" |> Option.get |> should equal ('b', "")
+    rParser "ac" |> should equal None
+    
+    let rBindParser: Parser<char> = combineRBind (pChar 'a') (pChar 'b')
+    rBindParser "bb" |> should equal None
+    rBindParser "ab" |> Option.get |> should equal ('b', "")
+    rBindParser "ac" |> should equal None
+    
+    let parser: Parser<char*char> = combine (pChar 'a') (pChar 'b')
+    parser "bb" |> should equal None
+    parser "ab" |> Option.get |> should equal (('a', 'b'), "")
+    parser "ac" |> should equal None
+    
+    let orParser: Parser<char> = orP (pChar 'a') (pChar 'b')
+    orParser "bb" |> Option.get |> should equal ('b', "b")
+    orParser "ab" |> Option.get |> should equal ('a', "b")
+    orParser "ac" |> Option.get |> should equal ('a', "c")
+    orParser "cc" |> should equal None

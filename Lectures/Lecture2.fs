@@ -142,11 +142,36 @@ module Combinators =
 
 // Excercise 2.
 //    a. Define 'combineR p1 p2' similar to combineL but return result of second parser
+    let combineR (p1: Parser<'t1>) (p2: Parser<'t2>) (input: seq<char>) =
+        match p1 input with //run the first parser ..
+        | Some (_, restOfInput) -> // ... and check the result
+            match p2 restOfInput with // if successed run the second parser
+            | Some (result2, restOfInput2) -> Some(result2, restOfInput2) // and if success return result of second parser
+            | None -> None // second parser failed
+        | _ -> None // first parser failed
+        
 //    b. Try to rewrite combineR using Option.bind. Hint: Did you use >> ? .
+    let combineRBind (p1: Parser<'t1>) (p2: Parser<'t2>) (input: seq<char>) =
+        p1 input |> Option.map snd |> Option.bind p2
 //    c. Define 'combine p1 p2' that produce tuple of result from both parsers
+    let combine (p1: Parser<'t1>) (p2: Parser<'t2>) (input: seq<char>) =
+        match p1 input with //run the first parser ..
+        | Some (result1, restOfInput) -> // ... and check the result
+            match p2 restOfInput with // if successed run the second parser
+            | Some (result2, restOfInput2) -> Some((result1, result2), restOfInput2) // and if success return result of second parser
+            | None -> None // second parser failed
+        | _ -> None // first parser failed
 //    e. Is it possible to rewrite comblineL and combine the same way combineR was in part b.?
+    // no
 //    e. Define 'orP p1 p2' which will atempt the first parser and if fail attempt second. or should fail if both p1 and p2 fails
+
+    let orP (p1: Parser<'t1>) (p2: Parser<'t1>) (input: seq<char>) =
+        p1 input |> Option.orElse (p2 input)
 //    d. Define 'map p f' which will map the result of a praser with function f: Hint: Use Option.map
+
+//    let map (p: Parser<'t1>) f (input: seq<char>) =
+//        p input |> Option.map f
+        
 
 
 ///// For clarity let's define set of infix operators for the methods defined above
