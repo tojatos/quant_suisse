@@ -127,3 +127,14 @@ let ``Expressions work`` () =
     "8/2+4-1" |> expression |> Option.get |> fst |> should equal 7
     "2*(2-2)/2" |> expression |> Option.get |> fst |> should equal 0
     "(2+1)*(3+4)" |> expression |> Option.get |> fst |> should equal 21
+    "r4" |> expression |> should equal None
+    
+[<Test>]
+let ``Whitespace expressions work`` () =
+    "5 + 6" |> expression |> Option.get |> fst |> should equal 11
+    "  (5 + 1 )/ 2" |> expression |> Option.get |> fst |> should equal 3
+    " 5 * 6 " |> expression |> Option.get |> fst |> should equal 30
+    
+[<Test>]
+let ``Safe expressions work`` () =
+    "5+7foobar" |> expression |> should equal None

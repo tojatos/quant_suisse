@@ -210,12 +210,13 @@ module Expressions =
     // here is module with some helper parsers and functions
     [<AutoOpen>]
     module helpers =
-        let pPlus: Parser<_> = pChar '+'
-        let pMinus: Parser<_> = pChar '-'
-        let pMult: Parser<_> = pChar '*'
-        let pDiv: Parser<_> = pChar '/'
-        let pOpen: Parser<_> = pChar '('
-        let pClose: Parser<_> = pChar ')'
+        let pSpaceOrSkip nextParser = pSpace >>. nextParser <|> nextParser
+        let pPlus: Parser<_> = pChar '+' |> pSpaceOrSkip
+        let pMinus: Parser<_> = pChar '-' |> pSpaceOrSkip
+        let pMult: Parser<_> = pChar '*' |> pSpaceOrSkip
+        let pDiv: Parser<_> = pChar '/' |> pSpaceOrSkip
+        let pOpen: Parser<_> = pChar '(' |> pSpaceOrSkip
+        let pClose: Parser<_> = pChar ')' |> pSpaceOrSkip
 
 
         let sum (a,b) = a+b;
@@ -227,17 +228,17 @@ module Expressions =
         let pExpression = (term .>> pPlus .>>. expression |>> sum )
                           <|> (term .>> pMinus .>>. expression |>> minus )
                           <|> term
-        input |> pExpression
+        input |> pSpaceOrSkip pExpression
 
     and term (input:seq<char>) : option<int * seq<char>> =
         let pTerm = (factor .>> pMult .>>. term |>> mul)
                     <|> (factor .>> pDiv .>>. term |>> div)
                     <|> factor
-        input |> pTerm
+        input |> pSpaceOrSkip pTerm
 
     and factor (input:seq<char>) : option<int * seq<char>>  =
         let pFactor = (pOpen >>. expression .>> pClose) <|> pDigit
-        input |> pFactor
+        input |> pSpaceOrSkip pFactor
         
 //// Excercise 4:Write some test for different expresions
 //// Excercise 5: The parser above is sensitive to whitespaces. "5 + 6" Won't parse. Extent the parse so it ignores whitespaces.
