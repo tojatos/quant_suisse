@@ -108,3 +108,11 @@ let ``Combinators work`` () =
     orParser "ab" |> Option.get |> should equal ('a', "b")
     orParser "ac" |> Option.get |> should equal ('a', "c")
     orParser "cc" |> should equal None
+    
+    let mapParser: Parser<int> = map pDigit (fun x -> x + 2)
+    mapParser "5" |> Option.get |> should equal (7, "")
+    
+//[<Test>]
+//let ``Parser operators work`` () =
+//    let addParser : Parser<int> = pDigit .>> pChar '+' .>>. pDigit |>> fun (x,y) -> x + y
+//    addParser "5+6" |> should equal 11

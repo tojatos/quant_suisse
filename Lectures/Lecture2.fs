@@ -86,36 +86,38 @@ module Parsers =
 //    val it : (char * seq<char>) option = Some ('f', seq ['o'; 'o'; 'B'; 'a'; ...])
 
     // Excercise 1.
-//    a. Define function 'pAny' that eats single (any) character from the input Parser<char>
-    let pAny (input: seq<char>) =
-        if Seq.isEmpty input |> not then Some(Seq.head input, Seq.skip 1 input) else None
+    //    a. Define function 'pAny' that eats single (any) character from the input Parser<char>
+    let pAny: Parser<char> =
+        fun (input: seq<char>) ->
+        if Seq.isEmpty input |> not
+        then Some(Seq.head input, Seq.skip 1 input)
+        else None
     //    b. Define function 'pDigit' that parse single digit from the input and return Parser<int>
-    let pDigit (input: seq<char>) =
+    let pDigit: Parser<int> =
+        fun (input: seq<char>) ->
         if Seq.isEmpty input |> not
            && Seq.head input |> Char.IsDigit then
             Some(Seq.head input |> Char.GetNumericValue |> int, Seq.skip 1 input)
         else
             None
     //    c. Define function 'pSpace' that eats all spaces from the begining of the input input
-    let pSpace (input: seq<char>) =
+    let pSpace: Parser<char seq> =
+        fun (input: seq<char>) ->
         let isSpace x = x = ' '
-
         if Seq.isEmpty input |> not
-           && Seq.head input |> isSpace then
-            Some(Seq.takeWhile isSpace input, Seq.skipWhile isSpace input)
-        else
-            None
+           && Seq.head input |> isSpace
+        then Some(Seq.takeWhile isSpace input, Seq.skipWhile isSpace input)
+        else None
     //    d. Define function 'pWord w' that tries to parse w at the begining of the input
-    let pWord (word: seq<char>) (input: seq<char>) =
-        if Seq.length input < Seq.length word then
-            None
+    let pWord (word: seq<char>): Parser<char seq> =
+        fun (input: seq<char>) ->
+        if Seq.length input < Seq.length word
+        then None
         else
             let zipped = Seq.zip word input
-
             if Seq.forall (fun (x, y) -> x = y) zipped
             then Some(word, Seq.skip (Seq.length word) input)
             else None
-
 
 // Till now we defined a few primitive parsers. Next step is to define higher order function that are able to combine them (combinators)
 // Here is example
@@ -152,7 +154,8 @@ module Combinators =
         
 //    b. Try to rewrite combineR using Option.bind. Hint: Did you use >> ? .
     let combineRBind (p1: Parser<'t1>) (p2: Parser<'t2>) (input: seq<char>) =
-        p1 input |> Option.map snd |> Option.bind p2
+        let parser = p1 >> Option.map snd >> Option.bind p2
+        input |> parser
 //    c. Define 'combine p1 p2' that produce tuple of result from both parsers
     let combine (p1: Parser<'t1>) (p2: Parser<'t2>) (input: seq<char>) =
         match p1 input with //run the first parser ..
@@ -168,23 +171,21 @@ module Combinators =
     let orP (p1: Parser<'t1>) (p2: Parser<'t1>) (input: seq<char>) =
         p1 input |> Option.orElse (p2 input)
 //    d. Define 'map p f' which will map the result of a praser with function f: Hint: Use Option.map
-
-//    let map (p: Parser<'t1>) f (input: seq<char>) =
-//        p input |> Option.map f
-        
+    let map (p: Parser<'t1>) f (input: seq<char>) =
+        p input |> Option.map (fun (r, i) -> (f r, i))
 
 
-///// For clarity let's define set of infix operators for the methods defined above
-//module Operators =
-//    open Parsers
-//    open Combinators
-//    let (.>>) : Parser<'a> -> Parser<'b> -> Parser<'a> = combineL
-//    let (>>.) : Parser<'a> -> Parser<'b> -> Parser<'b> = combineR
-//    let (.>>.) : Parser<'a> -> Parser<'b> -> Parser<'a*'b> = combine
-//    let (|>>) : Parser<'a> -> ('a -> 'b) -> Parser<'b> = map
-//    let (<|>) : Parser<'a> -> Parser<'a> -> Parser<'a> = orP
-//
-//
+/// For clarity let's define set of infix operators for the methods defined above
+module Operators =
+    open Parsers
+    open Combinators
+    let (.>>) : Parser<'a> -> Parser<'b> -> Parser<'a> = combineL
+    let (>>.) : Parser<'a> -> Parser<'b> -> Parser<'b> = combineR
+    let (.>>.) : Parser<'a> -> Parser<'b> -> Parser<'a*'b> = combine
+    let (|>>) : Parser<'a> -> ('a -> 'b) -> Parser<'b> = map
+    let (<|>) : Parser<'a> -> Parser<'a> -> Parser<'a> = orP
+
+
 //// here is an example of operator usage =
 //    let addParser : Parser<int> = pDigit .>> pChar '+' .>>. pDigit |>> fun (x,y) -> x + y
 //// First we parse for a digit followed by a '+' char. Since we use .>> (combineL) the result holds only the parsed digit.
