@@ -81,6 +81,7 @@ let ``Primitive parsers work`` () =
     
 open Combinators
 open Parsers
+open Operators
 [<Test>]
 let ``Combinators work`` () =
     let lParser: Parser<char> = combineL (pChar 'a') (pChar 'b')
@@ -112,7 +113,17 @@ let ``Combinators work`` () =
     let mapParser: Parser<int> = map pDigit (fun x -> x + 2)
     mapParser "5" |> Option.get |> should equal (7, "")
     
-//[<Test>]
-//let ``Parser operators work`` () =
-//    let addParser : Parser<int> = pDigit .>> pChar '+' .>>. pDigit |>> fun (x,y) -> x + y
-//    addParser "5+6" |> should equal 11
+[<Test>]
+let ``Parser operators work`` () =
+    let addParser : Parser<int> = pDigit .>> pChar '+' .>>. pDigit |>> fun (x,y) -> x + y
+    addParser "5+6" |> Option.get |> fst |> should equal 11
+    addParser "3+1" |> Option.get |> fst |> should equal 4
+    
+open Expressions
+[<Test>]
+let ``Expressions work`` () =
+    "2+2" |> expression |> Option.get |> fst |> should equal 4
+    "8-2" |> expression |> Option.get |> fst |> should equal 6
+    "8/2+4-1" |> expression |> Option.get |> fst |> should equal 7
+    "2*(2-2)/2" |> expression |> Option.get |> fst |> should equal 0
+    "(2+1)*(3+4)" |> expression |> Option.get |> fst |> should equal 21

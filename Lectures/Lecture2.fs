@@ -177,7 +177,6 @@ module Combinators =
 
 /// For clarity let's define set of infix operators for the methods defined above
 module Operators =
-    open Parsers
     open Combinators
     let (.>>) : Parser<'a> -> Parser<'b> -> Parser<'a> = combineL
     let (>>.) : Parser<'a> -> Parser<'b> -> Parser<'b> = combineR
@@ -204,46 +203,44 @@ module Operators =
 ////            | < factor >
 //// < factor > ::= (< expression >) | < digit >
 //// Write parser that computes the result of arithmetic expression string.
-//module Expressions =
-//    open Parsers
-//    open Combinators
-//
-//    // here is module with some helper parsers and functions
-//    [<AutoOpen>]
-//    module helpers =
-//        let pPlus: Parser<_> = pChar '+'
-//        let pMinus: Parser<_> = pChar '-'
-//        let pMult: Parser<_> = pChar '*'
-//        let pDiv: Parser<_> = pChar '/'
-//        let pOpen: Parser<_> = pChar '('
-//        let pClose: Parser<_> = pChar ')'
-//
-//
-//        let sum (a,b) = a+b;
-//        let minus (a,b) = a-b;
-//        let mul (a,b) = a*b;
-//        let div (a,b) = a/b;
-//
-//    // to help you start of I prepare scaffoling for the solution:
-//    let rec expression (input:seq<char>) : option<int * seq<char>>=
-//        let pExpression = (term .>> pPlus .>>. expression |>> sum ) // the case for summing term with an expression. It coresponds to < term > + < expression > part of the grammar
-//                          <|> // TODO: put a case for a term - expression it should correspond to < term > - < expression >
-//                          <|> // TODO: put a case for single term < term >
-//        input |> pExpression // here we trigger parsers on the input
-//
-//    and term (input:seq<char>) : option<int * seq<char>> =
-//        let pTerm = // TODO: mutliplication
-//                    // TODO: or divide
-//                    // TODO: or factor
-//        input |> pTerm
-//
-//    and factor  (input:seq<char>) : option<int * seq<char>>  =
-//        let pFactor = // TODO: expression in parenthesis or a digit
-//        input |> pFactor
-//
+module Expressions =
+    open Parsers
+    open Operators
+
+    // here is module with some helper parsers and functions
+    [<AutoOpen>]
+    module helpers =
+        let pPlus: Parser<_> = pChar '+'
+        let pMinus: Parser<_> = pChar '-'
+        let pMult: Parser<_> = pChar '*'
+        let pDiv: Parser<_> = pChar '/'
+        let pOpen: Parser<_> = pChar '('
+        let pClose: Parser<_> = pChar ')'
+
+
+        let sum (a,b) = a+b;
+        let minus (a,b) = a-b;
+        let mul (a,b) = a*b;
+        let div (a,b) = a/b;
+
+    let rec expression (input:seq<char>) : option<int * seq<char>>=
+        let pExpression = (term .>> pPlus .>>. expression |>> sum )
+                          <|> (term .>> pMinus .>>. expression |>> minus )
+                          <|> term
+        input |> pExpression
+
+    and term (input:seq<char>) : option<int * seq<char>> =
+        let pTerm = (factor .>> pMult .>>. term |>> mul)
+                    <|> (factor .>> pDiv .>>. term |>> div)
+                    <|> factor
+        input |> pTerm
+
+    and factor (input:seq<char>) : option<int * seq<char>>  =
+        let pFactor = (pOpen >>. expression .>> pClose) <|> pDigit
+        input |> pFactor
+        
 //// Excercise 4:Write some test for different expresions
 //// Excercise 5: The parser above is sensitive to whitespaces. "5 + 6" Won't parse. Extent the parse so it ignores whitespaces.
-//
 //// Excercise 6. There is a bug in the parser above. "5+7foobar" is valid expression. Write parser endInput : Parser<_> which success on empty input. Create safeExpression which combines
 //// expression and endInput so that "5+7foobar" is no longer valid input.
 
