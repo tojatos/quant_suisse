@@ -103,7 +103,7 @@ module Parsers =
     //    c. Define function 'pSpace' that eats all spaces from the begining of the input input
     let pSpace: Parser<char seq> =
         fun (input: seq<char>) ->
-        let isSpace x = x = ' '
+        let isSpace x = Char.IsWhiteSpace x
         if Seq.isEmpty input |> not
            && Seq.head input |> isSpace
         then Some(Seq.takeWhile isSpace input, Seq.skipWhile isSpace input)
@@ -217,7 +217,12 @@ module Expressions =
         let pDiv: Parser<_> = pChar '/' |> pSpaceOrSkip
         let pOpen: Parser<_> = pChar '(' |> pSpaceOrSkip
         let pClose: Parser<_> = pChar ')' |> pSpaceOrSkip
-
+        let endInput: Parser<_> =
+            fun input ->
+            let result = input |> (pSpaceOrSkip pAny)
+            match result with
+                | Some _ -> None
+                | None -> Some(None, seq<char>(""))
 
         let sum (a,b) = a+b;
         let minus (a,b) = a-b;
@@ -225,8 +230,8 @@ module Expressions =
         let div (a,b) = a/b;
 
     let rec expression (input:seq<char>) : option<int * seq<char>>=
-        let pExpression = (term .>> pPlus .>>. expression |>> sum )
-                          <|> (term .>> pMinus .>>. expression |>> minus )
+        let pExpression = (term .>> pPlus .>>. expression |>> sum)
+                          <|> (term .>> pMinus .>>. expression |>> minus)
                           <|> term
         input |> pSpaceOrSkip pExpression
 
@@ -244,4 +249,7 @@ module Expressions =
 //// Excercise 5: The parser above is sensitive to whitespaces. "5 + 6" Won't parse. Extent the parse so it ignores whitespaces.
 //// Excercise 6. There is a bug in the parser above. "5+7foobar" is valid expression. Write parser endInput : Parser<_> which success on empty input. Create safeExpression which combines
 //// expression and endInput so that "5+7foobar" is no longer valid input.
+    let safeExpression (input:seq<char>) : option<int * seq<char>>=
+        input |> (expression .>> endInput)
+
 

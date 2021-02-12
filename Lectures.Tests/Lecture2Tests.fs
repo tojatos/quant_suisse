@@ -137,4 +137,19 @@ let ``Whitespace expressions work`` () =
     
 [<Test>]
 let ``Safe expressions work`` () =
-    "5+7foobar" |> expression |> should equal None
+    "5+7foobar" |> expression |> should not' (equal None)
+    "5+7    f" |> expression |> should not' (equal None)
+    
+    "2+2" |> safeExpression |> Option.get |> fst |> should equal 4
+    "8-2" |> safeExpression |> Option.get |> fst |> should equal 6
+    "8/2+4-1" |> safeExpression |> Option.get |> fst |> should equal 7
+    "2*(2-2)/2" |> safeExpression |> Option.get |> fst |> should equal 0
+    "(2+1)*(3+4)" |> safeExpression |> Option.get |> fst |> should equal 21
+    "r4" |> safeExpression |> should equal None
+    "5 + 6" |> safeExpression |> Option.get |> fst |> should equal 11
+    "  (5 + 1 )/ 2" |> safeExpression |> Option.get |> fst |> should equal 3
+    " 5 * 6 " |> safeExpression |> Option.get |> fst |> should equal 30
+    "5+7    " |> safeExpression |> Option.get |> fst |> should equal 12
+    
+    "5+7foobar" |> safeExpression |> should equal None
+    "5+7    f" |> safeExpression |> should equal None
