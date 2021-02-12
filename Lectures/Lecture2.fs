@@ -219,7 +219,7 @@ module Expressions =
         let pClose: Parser<_> = pChar ')' |> pSpaceOrSkip
         let endInput: Parser<_> =
             fun input ->
-            let result = input |> (pSpaceOrSkip pAny)
+            let result = input |> pAny
             match result with
                 | Some _ -> None
                 | None -> Some(None, seq<char>(""))
@@ -250,6 +250,6 @@ module Expressions =
 //// Excercise 6. There is a bug in the parser above. "5+7foobar" is valid expression. Write parser endInput : Parser<_> which success on empty input. Create safeExpression which combines
 //// expression and endInput so that "5+7foobar" is no longer valid input.
     let safeExpression (input:seq<char>) : option<int * seq<char>>=
-        input |> (expression .>> endInput)
+        input |> (expression .>> pSpaceOrSkip endInput)
 
 
