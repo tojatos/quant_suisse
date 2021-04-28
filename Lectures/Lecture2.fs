@@ -22,19 +22,18 @@ type HandType =
     | Hand of int
     | Blackjack
 
-let getValue (card: Card) =
-    match card with
-    | Card (Ace, _) -> 11
-    | Card (King, _)
-    | Card (Queen, _)
-    | Card (Jack, _) -> 10
-    | Card (Value x, _) -> x
+let getValue (Card (rank, _)) =
+    match rank with
+    | Ace -> 11
+    | King
+    | Queen
+    | Jack -> 10
+    | Value x -> x
 
-let getHandType (value: int) =
-    match value with
+let getHandType = function
     | 21 -> Blackjack
-    | value when value > 21 -> Over21
-    | _ -> Hand(value)
+    | x when x > 21 -> Over21
+    | x -> Hand x
 
 let judgeHand (cards: list<Card>) = List.sumBy getValue cards |> getHandType
 
