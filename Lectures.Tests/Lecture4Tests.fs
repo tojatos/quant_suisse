@@ -28,4 +28,14 @@ let ``geometric brownian motion test`` () =
 [<Test>]
 let ``zad1 test`` () =
     //   N  n   S0    r   vol t seed
-    zad1 10 300 300. 0.07 0.3 1. 1
+    zad1 10 300 300. 0.07 0.3 1. 1 """E:\data\output.txt"""
+    
+[<Test>]
+let ``zad1 test2`` () =
+    //   N  n   S0    r   vol t seed
+    zad1 10 300 300. 0.07 0. 1. 1 """E:\data\output2.txt"""
+
+[<Test>]
+let ``zad2`` () =
+    //   N  n   S0    r   vol t seed
+    zad1 1000 300 300. 0.07 0.3 1. 1 """E:\data\zad2.txt"""

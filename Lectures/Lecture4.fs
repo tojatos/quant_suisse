@@ -44,11 +44,11 @@ let getHistoricalVolatility (geometricMotionSeq: seq<float>) t n =
     let volatility = sqrt (( n / (t * (n-1.)) ) * (RSeq |> Seq.map (fun r -> pown (r - RAvg) 2) |> Seq.sum))
     volatility
     
-let zad1 N n S0 r vol t seed =
-    let paths = List.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
-    let resultStrings = paths |> List.map (fun GM ->
+let zad1 N n S0 r vol t seed (path: string)  =
+    let paths = Array.Parallel.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
+    let resultStrings = paths |> Array.Parallel.map (fun GM ->
         (Seq.last GM |> string) + "," + (getHistoricalVolatility GM t (float n) |> string)
     )
-    let wr = new System.IO.StreamWriter("""E:\data\output.txt""")
+    let wr = new System.IO.StreamWriter(path)
     resultStrings |> String.concat("\n") |> wr.Write
     wr.Close()
