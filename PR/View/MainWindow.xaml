@@ -15,7 +15,7 @@
         Title="Pricer App"
         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}" d:DesignWidth="1305" d:DesignHeight="1151.5">
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto">
         <Grid>
