@@ -23,31 +23,34 @@ let normalDistRandom mean stdDev seed =
         }
     polarBoxMullerDist ()
     
-//let W t n randomVariables =
-//    let rec f last = seq {
-//        let next = last + sqrt (t/.n)
-//       
-//        
-//    }
-//    0 :: f 0
-//let W t last myNormalDistRandom =
-//    if t = 0 then 0𝜎
-//    else last +. (Seq.head myNormalDistRandom)
-//
-let zad1 N n S0 r vol t seed =
+
+let getGeometricMotionSeq n S0 r vol t seed =
     let div = ((float t) / (float n))
     let x = sqrt(div)
     let myNormalDistRandom = normalDistRandom 0. div seed
     let randomVariables = Seq.take n myNormalDistRandom
-    let WSeq = (0., randomVariables) |> Seq.unfold(fun (a, b) ->
+    let SSeq = (S0, randomVariables) |> Seq.unfold(fun (a, b) ->
             if (Seq.isEmpty b) then None
             else
-                let next = a + (Seq.head b) * x
+                let exponent = (r - (pown vol 2) / 2.) * div + vol * x * (Seq.head b)
+                let next = a * Math.Pow(Math.E, exponent)
                 Some(a, (next, Seq.tail b))
         )
-    WSeq |> Seq.length |> printfn "%A"
-    WSeq |> Seq.take n |> printfn "%A"
-    WSeq |> Seq.take n |> Seq.length |> printfn "%A"
+    SSeq
+    
+//let zad1 N n S0 r vol t seed =
+//    let paths = List.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
+//    for path in paths
+//        path |> printfn "%A"
+//    0
+        
+//    SSeq |> Seq.length |> printfn "%A"
+//    SSeq |> Seq.take n |> printfn "%A"
+//    SSeq |> Seq.take n |> Seq.length |> printfn "%A"
+    
+//    let wr = new System.IO.StreamWriter("""E:\data\br_motion.csv""")
+//    SSeq |> Seq.take n |> Seq.map(string) |> String.concat(",") |> wr.Write
+//    wr.Close()
     
 //    let t = 0
     
@@ -55,4 +58,3 @@ let zad1 N n S0 r vol t seed =
 //    let exponent = (drift -. (pown vol 2)) * t + vol * Wt
 //    let result = price * Math.Pow(Math.E, exponent)
     //    result
-    0
