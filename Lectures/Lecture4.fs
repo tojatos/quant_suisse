@@ -38,23 +38,11 @@ let getGeometricMotionSeq n S0 r vol t seed =
         )
     SSeq
     
-//let zad1 N n S0 r vol t seed =
-//    let paths = List.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
-//    for path in paths
-//        path |> printfn "%A"
-//    0
-        
-//    SSeq |> Seq.length |> printfn "%A"
-//    SSeq |> Seq.take n |> printfn "%A"
-//    SSeq |> Seq.take n |> Seq.length |> printfn "%A"
-    
-//    let wr = new System.IO.StreamWriter("""E:\data\br_motion.csv""")
-//    SSeq |> Seq.take n |> Seq.map(string) |> String.concat(",") |> wr.Write
-//    wr.Close()
-    
-//    let t = 0
-    
-//    let Wt = W t 0. myNormalDistRandom
-//    let exponent = (drift -. (pown vol 2)) * t + vol * Wt
-//    let result = price * Math.Pow(Math.E, exponent)
-    //    result
+let zad1 N n S0 r vol t seed =
+    let paths = List.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
+    let resultStrings = paths |> List.map (fun i ->
+        string (Seq.last i)
+        )
+    let wr = new System.IO.StreamWriter("""E:\data\output.txt""")
+    resultStrings |> String.concat("\n") |> wr.Write
+    wr.Close()

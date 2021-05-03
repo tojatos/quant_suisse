@@ -10,7 +10,6 @@ let ``normalDistRandom distribution test`` () =
     let wr = new System.IO.StreamWriter("E:\data\dist_test.csv")
     Seq.take 1000 x |> Seq.map(string) |> String.concat(",") |> wr.Write
     wr.Close()
-    true |> should equal true
     
 let replaceString (oldValue:string) (newValue:string) (message:string) =
     message.Replace(oldValue, newValue)
@@ -22,15 +21,11 @@ let ``geometric brownian motion test`` () =
         let result = getGeometricMotionSeq 300 300. 0.07 0.3 1 (1 + i)
         result |> Seq.take 300 |> Seq.map(string) |> String.concat("\t") |> replaceString "." ","
         )
-//    let result = getGeometricMotionSeq 300 300. 0.01 0.2 1 1
     let wr = new System.IO.StreamWriter("""E:\data\br_motion.csv""")
     resultStrings |> String.concat("\n") |> wr.Write
-//    result |> Seq.take 300 |> Seq.map(string) |> String.concat(" ") |> replaceString "." "," |> wr.Write
     wr.Close()
-    true |> should equal true
     
-//[<Test>]
-//let ``zad1 test`` () =
-//    //let        zad1 N n   S0    r    vol t seed
-//    let result = zad1 1 300 300. 0.01 0.2 1 1
-//    true |> should equal true
+[<Test>]
+let ``zad1 test`` () =
+    //   N  n   S0    r   vol t seed
+    zad1 10 300 300. 0.07 0.3 1 1
