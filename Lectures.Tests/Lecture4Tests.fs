@@ -18,7 +18,7 @@ let replaceString (oldValue:string) (newValue:string) (message:string) =
 let ``geometric brownian motion test`` () =
     //let            getGeometricMotionSeq  n   S0   r    vol t seed
     let resultStrings = List.init 10 (fun i ->
-        let result = getGeometricMotionSeq 300 300. 0.07 0.3 1 (1 + i)
+        let result = getGeometricMotionSeq 300 300. 0.07 0.3 1. (1 + i)
         result |> Seq.take 300 |> Seq.map(string) |> String.concat("\t") |> replaceString "." ","
         )
     let wr = new System.IO.StreamWriter("""E:\data\br_motion.csv""")
@@ -28,4 +28,4 @@ let ``geometric brownian motion test`` () =
 [<Test>]
 let ``zad1 test`` () =
     //   N  n   S0    r   vol t seed
-    zad1 10 300 300. 0.07 0.3 1 1
+    zad1 10 300 300. 0.07 0.3 1. 1

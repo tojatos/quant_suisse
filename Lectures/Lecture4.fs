@@ -37,12 +37,18 @@ let getGeometricMotionSeq n S0 r vol t seed =
                 Some(a, (next, Seq.tail b))
         )
     SSeq
+
+let getHistoricalVolatility (geometricMotionSeq: seq<float>) t n =
+    let RSeq = geometricMotionSeq |> Seq.pairwise |> Seq.map (fun (a, b) -> log(b / a))
+    let RAvg = Seq.average RSeq
+    let volatility = sqrt (( n / (t * (n-1.)) ) * (RSeq |> Seq.map (fun r -> pown (r - RAvg) 2) |> Seq.sum))
+    volatility
     
 let zad1 N n S0 r vol t seed =
     let paths = List.init N (fun i -> getGeometricMotionSeq n S0 r vol t (seed + i))
-    let resultStrings = paths |> List.map (fun i ->
-        string (Seq.last i)
-        )
+    let resultStrings = paths |> List.map (fun GM ->
+        (Seq.last GM |> string) + "," + (getHistoricalVolatility GM t (float n) |> string)
+    )
     let wr = new System.IO.StreamWriter("""E:\data\output.txt""")
     resultStrings |> String.concat("\n") |> wr.Write
     wr.Close()
