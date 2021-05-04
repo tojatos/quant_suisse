@@ -39,3 +39,7 @@ let ``zad1 test2`` () =
 let ``zad2`` () =
     //   N  n   S0    r   vol t seed
     zad1 1000 300 300. 0.07 0.3 1. 1 """E:\data\zad2.txt"""
+    
+[<Test>]
+let ``zad3`` () =
+    zad3 """D:\Scripts\quant_suisse\AEX_20210503_5.txt"""

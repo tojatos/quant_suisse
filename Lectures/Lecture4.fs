@@ -52,3 +52,10 @@ let zad1 N n S0 r vol t seed (path: string)  =
     let wr = new System.IO.StreamWriter(path)
     resultStrings |> String.concat("\n") |> wr.Write
     wr.Close()
+
+let zad3 path =
+    let stock_data = System.IO.File.ReadAllLines path |> Seq.map float
+//    stock_data |> printfn "%A"
+    let n = (Seq.length stock_data |> float)
+    let t = 1.
+    getHistoricalVolatility stock_data t n |> printfn "%A"

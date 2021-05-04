@@ -72,6 +72,9 @@ type PaymentValuationModel(inputs: PaymentValuationInputs) =
         let r = (match inputs.Data.TryFind "r" with
                          | Some r -> r
                          | None -> "0.03") |> float
-        //inputs.Trade.Expiry
-        
-        { Value = (float inputs.Trade.Principal) / fxRate; Currency = finalCcy }
+
+        let years = inputs.Trade.Expiry.Date.Subtract(DateTime.Now.Date).TotalDays / 365.
+
+        let USDMultiplier = Math.Pow(Math.E, r * years)
+
+        { Value = USDMultiplier * (float inputs.Trade.Principal) / fxRate; Currency = finalCcy }
