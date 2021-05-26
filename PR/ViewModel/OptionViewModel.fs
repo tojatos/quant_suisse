@@ -5,22 +5,14 @@
 //    | Put
 //    override x.ToString() = match x with | Call -> "Call" | _ -> "Put"
 
-type OptionRecord =
-    {
-        Kind: string
-        StockPrice: float
-        Strike: float
-        Expiry: System.DateTime
-        r: float
-        v: float
-    }
  
 //Representation of a Option to the UI
 type OptionViewModel(input : OptionRecord) = 
     inherit ViewModelBase()
 
     let mutable userInput = input
-    //let mutable value : Money option = None
+    let mutable optionPrice : float option = None
+    let mutable optionDelta : float option = None
 
     member this.Kind 
         with get() = userInput.Kind
@@ -58,60 +50,44 @@ type OptionViewModel(input : OptionRecord) =
             userInput <- {userInput with v = x }
             base.Notify("v")
 
+    member this.OptionPrice
+        with get() = optionPrice
+        and set(x) = 
+            optionPrice <- x
+            base.Notify("OptionPrice")
+
+    member this.OptionDelta
+        with get() = optionDelta
+        and set(x) = 
+            optionDelta <- x
+            base.Notify("OptionDelta")
+
 
     // Invoke the valuation based on user input
-    //member this.CalculateOption(data : DataConfiguration, calculationParameters : CalculationConfiguration) = 
+    member this.CalculateOption() = 
+        let o : OptionRecord =
+            {
+                Kind = this.Kind
+                StockPrice = this.StockPrice
+                Strike = this.Strike
+                Expiry = this.Expiry
+                r = this.r
+                v = this.v
+            }
         
-    //    //capture inputs
-    //    let paymentInputs : PaymentValuationInputs = 
-    //        {
-    //            Trade = 
-    //                     {
-    //                         TradeName = this.TradeName
-    //                         Expiry    = this.Expiry
-    //                         Currency  = this.Currency
-    //                         Principal = this.Principal
-    //                     }
-    //            Data = data
-    //            CalculationsParameters = calculationParameters
-    //        }
-    //    //calculate
-    //    let calc = PaymentValuationModel(paymentInputs).Calculate()
+        //calculate
+        let calc = OptionCalculationModel(o).Calculate()
 
-    //    //present to the user
-    //    this.Value <- Option.Some (calc)
+        let price = fst calc
+        let delta = snd calc
 
-(* summary row. there is little functionality here, so this is very brief. *)
-//type SummaryRow = 
-//    {
-//        Currency: string
-//        Value : float
-//    }
-
-//type OprionRecord = 
-//    {
-//        Key : string
-//        Value : string
-//    }
-    
-//type DataConfiguration = Map<string, string>
-//type CalculationConfiguration = Map<string, string>
-
-//type ConfigurationViewModel( configRec : ConfigurationRecord) = 
-//    inherit ViewModelBase()
-
-//    let mutable configRec = configRec
-
-//    member this.Value
-//        with get() = configRec.Value
-//        and set(x) = 
-//            configRec <- {configRec with Value = x }
-//            base.Notify("Value")
-    
-//    member this.Key
-//        with get() = configRec.Key
-//        and set(x) = 
-//            configRec <- {configRec with Key = x }
-//            base.Notify("Key") 
-
+        //present to the user
+        this.OptionPrice <- Option.Some (price)
+        this.OptionDelta <- Option.Some (delta)
+        //this.OptionPrice <- Option.Some (System.Math.Round(price, 2))
+        //this.OptionDelta <- Option.Some (System.Math.Round(delta, 2))
+        //this.OptionDelta <- Option.Some (snd calc)
+        //this.OptionPrice <- Option.Some ((fst calc * 1000. |> round) / 1000.)
+        //this.OptionDelta <- Option.Some ((snd calc * 1000. |> round) / 1000.)
+        //this.OptionDelta <- Option.Some (snd calc)
 

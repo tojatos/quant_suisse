@@ -36,7 +36,10 @@ type MainViewModel() =
     let summary = ObservableCollection<SummaryRow>()
 
     (* option commands *)
-    //let calculateOption = SimpleCommand(fun _ -> options[0].C)
+    let calculateOptionFun _ = do
+        options |> Seq.iter(fun o -> o.CalculateOption())
+
+    let calculateOption = SimpleCommand calculateOptionFun
 
     (* trade commands *)
     let refreshSummary() = 
@@ -106,7 +109,7 @@ type MainViewModel() =
     member this.ClearTrades = clearTrades
     member this.Calculate = calculate
     member this.ClearOption = clearTrades
-    member this.CalculateOption = calculate
+    member this.CalculateOption = calculateOption
 
     member this.AddMarketData = addMarketDataRecord
     member this.RemoveMarketData = removeMarketDataRecord

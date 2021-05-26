@@ -124,6 +124,8 @@
                             <ColumnDefinition Width="180"/>
                             <ColumnDefinition Width="60"/>
                             <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- table header -->
@@ -134,9 +136,11 @@
                         <TextBlock Grid.Row="1" Grid.Column="4" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Expiry"/>
                         <TextBlock Grid.Row="1" Grid.Column="5" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="r"/>
                         <TextBlock Grid.Row="1" Grid.Column="6" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="v"/>
+                        <TextBlock Grid.Row="1" Grid.Column="7" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Price"/>
+                        <TextBlock Grid.Row="1" Grid.Column="8" Width="160" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" TextAlignment="Left" Text="Option Delta"/>
 
                         <!-- items -->
-                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="7" ItemsSource="{Binding Options}" >
+                        <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" ItemsSource="{Binding Options}" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="{x:Type vm:OptionViewModel}">
                                     <Grid>
@@ -148,6 +152,8 @@
                                             <ColumnDefinition Width="180"/>
                                             <ColumnDefinition Width="60"/>
                                             <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="120"/>
                                         </Grid.ColumnDefinitions>
 
                                         <TextBox Grid.Column="1" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Kind}"/>
@@ -156,6 +162,8 @@
                                         <TextBox Grid.Column="4" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Expiry}"/>
                                         <TextBox Grid.Column="5" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding r}"/>
                                         <TextBox Grid.Column="6" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding v}"/>
+                                        <TextBlock Grid.Column="7" TextAlignment="Left" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding OptionPrice, Mode=OneWay, Converter={StaticResource stripOption}}"/>
+                                        <TextBlock Grid.Column="8" TextAlignment="Left" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding OptionDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>
                                         <!--<Button Width="40" Command="{Binding DataContext.RemoveTrade, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
                                         <TextBox Grid.Column="1" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding TradeName}"/>
                                         <TextBox Grid.Column="2" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Expiry}"/>
