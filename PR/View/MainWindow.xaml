@@ -101,9 +101,7 @@
 
                     <!-- action buttons -->
                     <StackPanel Grid.Column="0" Grid.Row="1">
-                        <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding ClearOption}" Content="Clear"/>
                         <Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding CalculateOption}" Content="Calculate"/>
-                        <!--<Button Margin="6,3" Style="{DynamicResource MaterialDesignRaisedAccentButton}" Command="{Binding AddTrade}" Content="New"/>-->
                     </StackPanel>
 
                     <!-- option grid -->
@@ -164,12 +162,6 @@
                                         <TextBox Grid.Column="6" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding v}"/>
                                         <TextBlock Grid.Column="7" TextAlignment="Left" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding OptionPrice, Mode=OneWay, Converter={StaticResource stripOption}}"/>
                                         <TextBlock Grid.Column="8" TextAlignment="Left" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding OptionDelta, Mode=OneWay, Converter={StaticResource stripOption}}"/>
-                                        <!--<Button Width="40" Command="{Binding DataContext.RemoveTrade, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}" FontSize="10" Margin="3">✖</Button>
-                                        <TextBox Grid.Column="1" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding TradeName}"/>
-                                        <TextBox Grid.Column="2" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Expiry}"/>
-                                        <TextBox Grid.Column="3" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Currency}"/>
-                                        <TextBox Grid.Column="4" TextAlignment="Right" Margin="4" Style="{DynamicResource MaterialDesignTextBox}" Text="{Binding Principal}"/>
-                                        <TextBlock Grid.Column="5" TextAlignment="Right" Margin="0" Padding="10" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="{Binding Value, Mode=OneWay, Converter={StaticResource stripOption}}"/> -->
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

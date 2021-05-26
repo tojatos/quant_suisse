@@ -17,20 +17,26 @@ type OptionViewModel(input : OptionRecord) =
     member this.Kind 
         with get() = userInput.Kind
         and set(x) = 
-            userInput <- {userInput with Kind = x }
-            base.Notify("Kind")
+            if x <> "Put" && x <> "Call" then ()
+            else
+                userInput <- {userInput with Kind = x }
+                base.Notify("Kind")
 
     member this.StockPrice
         with get() = userInput.StockPrice
         and set(x) = 
-            userInput <- {userInput with StockPrice = x }
-            base.Notify("StockPrice")
+            if x < 0. then ()
+            else
+                userInput <- {userInput with StockPrice = x }
+                base.Notify("StockPrice")
 
     member this.Strike
         with get() = userInput.Strike
         and set(x) = 
-            userInput <- {userInput with Strike = x }
-            base.Notify("Strike")
+            if x < 0. then ()
+            else
+                userInput <- {userInput with Strike = x }
+                base.Notify("Strike")
 
     member this.Expiry 
         with get() = userInput.Expiry
