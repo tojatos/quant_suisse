@@ -20,7 +20,7 @@ type MainViewModel() =
     
     (* add some dummy data rows *)
     do
-        options.Add(OptionViewModel { Kind = Call; StockPrice = 100.; Strike = 120.; Expiry = DateTime.Today.AddMonths(6); r = 0.03; v = 0.03 })
+        options.Add(OptionViewModel { Kind = "Call"; StockPrice = 100.; Strike = 120.; Expiry = DateTime.Today.AddMonths(6); r = 0.03; v = 0.03 })
 
         data.Add(ConfigurationViewModel { Key = "FX::USDPLN"; Value = "3.76" })
         data.Add(ConfigurationViewModel { Key = "FX::USDEUR"; Value = "0.87" })

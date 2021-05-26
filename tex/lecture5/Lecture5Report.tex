@@ -1,0 +1,99 @@
+\documentclass[12pt,a4paper]{article}
+
+% \usepackage[MeX]{polski}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{textcomp}
+\usepackage{amsmath, amssymb}
+\usepackage{minted}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{hyperref} % clickable table of contents and urls
+\usepackage{float}
+\usepackage{enumerate} % custom enumeration types
+\usepackage[labelfont=bf]{caption} % bold captions
+\usepackage{booktabs} % for \midrule
+\usepackage[left=1.5cm, right=1.5cm, top=1.5cm, bottom=1.5cm]{geometry} % decrease margins
+
+ % center headings
+\usepackage{sectsty}
+\allsectionsfont{\centering}
+
+\setlength\parindent{0pt}
+\renewcommand*{\thefootnote}{(\arabic{footnote})} % puts footnote in brackets
+
+% minted color box
+\usepackage[breakable]{tcolorbox}
+
+\BeforeBeginEnvironment{minted}{\begin{tcolorbox}[breakable]}
+\AfterEndEnvironment{minted}{\end{tcolorbox}}
+
+% Create a new environment for breaking code listings across pages.
+\usepackage{caption}
+\newenvironment{longlisting}{\captionsetup{type=listing}}{}
+
+% break long urls (https://tex.stackexchange.com/a/325037)
+\usepackage{etoolbox}
+\appto\UrlBreaks{\do\-}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.5em}%
+}
+
+\newcommand{\nt}[1]{\mkern1mu\overline{\mkern-1mu#1\mkern-1mu}\mkern1mu}
+\newcommand{\image}[2] {
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[width=0.75\textwidth]{#1}
+        \end{center}
+        \caption{#2}
+        \label{#1}
+    \end{figure}
+}
+
+% disable numbering
+\setcounter{secnumdepth}{0}
+
+\author{Krzysztof Ruczkowski}
+\title{Lecture 5 report}
+
+\begin{document}
+
+\maketitle
+% \tableofcontents
+% \newpage
+
+\section{zad2}
+Parameters:
+\begin{enumerate}
+    \item stock prices: 1 - 1000, step 1
+    \item strike: 140
+    \item volatility: 0.1
+    \item risk free interest rate: 0.3
+\end{enumerate}
+
+
+Serie1 - maturity 0.001
+
+Serie2 - maturity 0.5
+
+Serie3 - maturity 1
+
+\image{Obraz1}{}
+\image{Obraz3}{}
+\image{Obraz4}{}
+\image{Obraz5}{}
+
+Call delta - put delta is always equal to 1.
+
+\section{zad3}
+Volatility changed to 20%
+\image{Obraz6}{}
+\image{Obraz7}{}
+
+\end{document}

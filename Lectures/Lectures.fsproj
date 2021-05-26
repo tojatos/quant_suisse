@@ -8,6 +8,7 @@
       <Compile Include="Lecture1.fs" />
       <Compile Include="Lecture2.fs" />
       <Compile Include="Lecture4.fs" />
+      <Compile Include="Lecture5.fs" />
     </ItemGroup>
 
 </Project>

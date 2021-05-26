@@ -18,6 +18,7 @@
         <Compile Include="Lecture1Tests.fs" />
         <Compile Include="Lecture2Tests.fs" />
         <Compile Include="Lecture4Tests.fs" />
+        <Compile Include="Lecture5Tests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

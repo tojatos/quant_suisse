@@ -1,13 +1,13 @@
 ﻿namespace ViewModel
 
-type OptionKind =
-    | Call
-    | Put
-    override x.ToString() = match x with | Call -> "Call" | _ -> "Put"
+//type OptionKind =
+//    | Call
+//    | Put
+//    override x.ToString() = match x with | Call -> "Call" | _ -> "Put"
 
 type OptionRecord =
     {
-        Kind: OptionKind
+        Kind: string
         StockPrice: float
         Strike: float
         Expiry: System.DateTime
