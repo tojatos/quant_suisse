@@ -10,6 +10,7 @@ open LiveCharts.Wpf;
 type MainViewModel() = 
     inherit ViewModelBase()
 
+    let options = ObservableCollection<OptionViewModel>()
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
@@ -19,6 +20,8 @@ type MainViewModel() =
     
     (* add some dummy data rows *)
     do
+        options.Add(OptionViewModel { Kind = Call; StockPrice = 100.; Strike = 120.; Expiry = DateTime.Today.AddMonths(6); r = 0.03; v = 0.03 })
+
         data.Add(ConfigurationViewModel { Key = "FX::USDPLN"; Value = "3.76" })
         data.Add(ConfigurationViewModel { Key = "FX::USDEUR"; Value = "0.87" })
         data.Add(ConfigurationViewModel { Key = "FX::EURGBP"; Value = "0.90" })
@@ -31,6 +34,9 @@ type MainViewModel() =
         calculationParameters.Add(ConfigurationViewModel { Key = "methodology::bumpSize"; Value = "0.0001" })
 
     let summary = ObservableCollection<SummaryRow>()
+
+    (* option commands *)
+    //let calculateOption = SimpleCommand(fun _ -> options[0].C)
 
     (* trade commands *)
     let refreshSummary() = 
@@ -99,6 +105,8 @@ type MainViewModel() =
     member this.RemoveTrade = removeTrade
     member this.ClearTrades = clearTrades
     member this.Calculate = calculate
+    member this.ClearOption = clearTrades
+    member this.CalculateOption = calculate
 
     member this.AddMarketData = addMarketDataRecord
     member this.RemoveMarketData = removeMarketDataRecord
@@ -110,6 +118,7 @@ type MainViewModel() =
 
 
     (* data fields *)
+    member this.Options = options
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
